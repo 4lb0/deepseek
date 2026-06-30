@@ -13,8 +13,9 @@
     --muted: #8b949e;
     --accent: #4d6bfe;
     --warning: #f0883e;
-    --danger: #f85149;
-    --success: #3fb950;
+    --red: #f85149;
+    --green: #3fb950;
+    --yellow: #d2991d;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -30,12 +31,12 @@
     transition: background 0.6s ease;
   }
 
-  body.peak { background: linear-gradient(135deg, #0d1117 0%, #1a0f0f 50%, #1d1111 100%); }
+  body.peak    { background: linear-gradient(135deg, #0d1117 0%, #1a0f0f 50%, #1d1111 100%); }
   body.offpeak { background: linear-gradient(135deg, #0d1117 0%, #0f1a0f 50%, #111d11 100%); }
 
   .container {
     width: 100%;
-    max-width: 520px;
+    max-width: 480px;
     padding: 2rem 1.5rem;
     text-align: center;
   }
@@ -50,19 +51,14 @@
     filter: drop-shadow(0 0 20px rgba(77, 107, 254, 0.3));
   }
   .logo-icon {
-    width: 42px;
-    height: 42px;
+    width: 42px; height: 42px;
     background: linear-gradient(135deg, #4d6bfe, #22d3ee);
     border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     font-size: 22px;
   }
   .logo-text {
-    font-size: 1.6rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
+    font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px;
     background: linear-gradient(135deg, #4d6bfe, #22d3ee);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -74,133 +70,148 @@
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 2rem;
+    padding: 2rem 1.5rem;
     transition: border-color 0.4s, box-shadow 0.4s;
   }
-  .card.peak {
-    border-color: rgba(248, 81, 73, 0.4);
-    box-shadow: 0 0 30px rgba(248, 81, 73, 0.1);
-  }
-  .card.offpeak {
-    border-color: rgba(63, 185, 80, 0.4);
-    box-shadow: 0 0 30px rgba(63, 185, 80, 0.1);
-  }
+  .card.peak    { border-color: rgba(248,81,73,0.4);  box-shadow: 0 0 30px rgba(248,81,73,0.1); }
+  .card.offpeak { border-color: rgba(63,185,80,0.4);  box-shadow: 0 0 30px rgba(63,185,80,0.1); }
 
-  /* Clock */
-  .clock {
-    font-size: 3rem;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 2px;
-    margin-bottom: 0.3rem;
-  }
-  .timezone {
-    font-size: 0.85rem;
-    color: var(--muted);
+  /* Semaforo (Traffic Light) */
+  .semaforo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 1.5rem;
   }
+  .semaforo-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: #0d1117;
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 14px 22px;
+  }
+  .semaforo-light {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #21262d;
+    border: 2px solid var(--border);
+    transition: all 0.4s ease;
+    position: relative;
+  }
+  .semaforo-light.on {
+    border-color: transparent;
+    box-shadow: 0 0 24px;
+  }
+  .semaforo-light.red.on   { background: var(--red);   box-shadow: 0 0 24px var(--red), 0 0 48px rgba(248,81,73,0.4); }
+  .semaforo-light.green.on { background: var(--green); box-shadow: 0 0 24px var(--green), 0 0 48px rgba(63,185,80,0.4); }
 
-  /* Status */
+  .semaforo-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    transition: color 0.4s;
+  }
+  .semaforo-label.active-red   { color: var(--red); }
+  .semaforo-label.active-green { color: var(--green); }
+
+  /* Big Countdown */
+  .big-countdown {
+    margin-bottom: 1rem;
+  }
+  .big-countdown .label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  .big-countdown .timer {
+    font-size: 2.2rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+    transition: color 0.4s;
+  }
+  .big-countdown .timer.peak    { color: var(--red); }
+  .big-countdown .timer.offpeak { color: var(--green); }
+
+  /* Status badge */
   .status-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 24px;
+    padding: 8px 20px;
     border-radius: 50px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     letter-spacing: 0.3px;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.8rem;
     transition: all 0.3s ease;
   }
   .status-badge.peak {
-    background: rgba(248, 81, 73, 0.15);
+    background: rgba(248,81,73,0.15);
     color: #f85149;
-    border: 1px solid rgba(248, 81, 73, 0.3);
+    border: 1px solid rgba(248,81,73,0.3);
   }
   .status-badge.offpeak {
-    background: rgba(63, 185, 80, 0.15);
+    background: rgba(63,185,80,0.15);
     color: #3fb950;
-    border: 1px solid rgba(63, 185, 80, 0.3);
+    border: 1px solid rgba(63,185,80,0.3);
   }
-
-  .status-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-  .status-dot.peak  { background: #f85149; }
-  .status-dot.offpeak { background: #3fb950; }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.3); }
-  }
-
-  /* Message */
-  .message {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 1.8rem;
-    color: var(--text);
-    min-height: 60px;
-  }
-  .message strong { color: var(--warning); }
 
   /* Peak hours bar */
   .hours-row {
     display: flex;
     justify-content: center;
-    gap: 16px;
-    margin-bottom: 1.5rem;
+    gap: 12px;
+    margin-bottom: 1.2rem;
     flex-wrap: wrap;
   }
   .hour-block {
-    padding: 8px 16px;
+    padding: 7px 14px;
     border-radius: 10px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    background: rgba(139, 148, 158, 0.08);
+    background: rgba(139,148,158,0.08);
     border: 1px solid var(--border);
     transition: all 0.3s ease;
   }
   .hour-block.active {
-    background: rgba(248, 81, 73, 0.12);
-    border-color: rgba(248, 81, 73, 0.4);
+    background: rgba(248,81,73,0.12);
+    border-color: rgba(248,81,73,0.4);
     color: #f85149;
   }
 
-  /* Countdown */
-  .countdown {
-    font-size: 0.85rem;
-    color: var(--muted);
-    margin-bottom: 1.2rem;
-  }
-
-  /* Link */
+  /* Pricing link */
   .pricing-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     color: var(--accent);
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
-    padding: 8px 20px;
-    border: 1px solid rgba(77, 107, 254, 0.3);
+    padding: 7px 18px;
+    border: 1px solid rgba(77,107,254,0.3);
     border-radius: 8px;
     transition: all 0.2s;
   }
   .pricing-link:hover {
-    background: rgba(77, 107, 254, 0.1);
-    border-color: rgba(77, 107, 254, 0.6);
+    background: rgba(77,107,254,0.1);
+    border-color: rgba(77,107,254,0.6);
   }
   .pricing-link svg { width: 14px; height: 14px; }
 
   .footer {
-    margin-top: 2rem;
-    font-size: 0.8rem;
+    margin-top: 1.8rem;
+    font-size: 0.78rem;
     color: var(--muted);
   }
 </style>
@@ -208,37 +219,40 @@
 <body class="peak">
 <div class="container">
 
-  <!-- Logo -->
   <div class="logo">
     <div class="logo-icon">🐋</div>
     <span class="logo-text">DeepSeek</span>
   </div>
 
-  <!-- Main Card -->
   <div class="card peak" id="card">
-    <div class="clock" id="clock">--:--</div>
-    <div class="timezone">Beijing Time (UTC+8)</div>
 
-    <div class="status-badge peak" id="badge">
-      <span class="status-dot peak" id="dot"></span>
-      <span id="badgeText">--</span>
+    <!-- Semaforo -->
+    <div class="semaforo">
+      <div class="semaforo-box">
+        <div class="semaforo-light red"   id="light-red"></div>
+        <div class="semaforo-light yellow"></div>
+        <div class="semaforo-light green" id="light-green"></div>
+      </div>
+      <div class="semaforo-label" id="semaforo-label">--</div>
     </div>
 
-    <div class="message" id="message">--</div>
+    <!-- Big Countdown -->
+    <div class="big-countdown">
+      <div class="label" id="cd-label">--</div>
+      <div class="timer peak" id="cd-timer">--</div>
+    </div>
+
+    <div class="status-badge peak" id="badge">
+      <span id="badgeText">--</span>
+    </div>
 
     <div class="hours-row">
       <span class="hour-block" id="block-morning">09:00 – 12:00</span>
       <span class="hour-block" id="block-afternoon">14:00 – 18:00</span>
     </div>
 
-    <div class="countdown" id="countdown"></div>
-
     <a class="pricing-link" href="https://api-docs.deepseek.com/quick_start/pricing" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-        <polyline points="15 3 21 3 21 9"/>
-        <line x1="10" y1="14" x2="21" y2="3"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       View API Pricing
     </a>
   </div>
@@ -250,121 +264,106 @@
 
 <script>
 (function () {
-  const UTC8_OFFSET = 8 * 60; // minutes
+  const UTC8 = 8 * 60;
+  const MS_START = 9 * 60,  MS_END = 12 * 60;
+  const AS_START = 14 * 60, AS_END = 18 * 60;
 
   const $body   = document.body;
   const $card   = document.getElementById('card');
-  const $clock  = document.getElementById('clock');
   const $badge  = document.getElementById('badge');
-  const $dot    = document.getElementById('dot');
   const $badgeT = document.getElementById('badgeText');
-  const $msg    = document.getElementById('message');
   const $bMorn  = document.getElementById('block-morning');
   const $bAft   = document.getElementById('block-afternoon');
-  const $cd     = document.getElementById('countdown');
+  const $lr     = document.getElementById('light-red');
+  const $lg     = document.getElementById('light-green');
+  const $semLbl = document.getElementById('semaforo-label');
+  const $cdLbl  = document.getElementById('cd-label');
+  const $cdTimer = document.getElementById('cd-timer');
 
-  function offset(date) {
-    const local = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-                           date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-    return new Date(local + UTC8_OFFSET * 60000);
+  function beijing(date) {
+    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+                             date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()) + UTC8 * 60000);
   }
 
-  function minutesSinceMidnight(d) {
-    return d.getHours() * 60 + d.getMinutes();
-  }
+  function mins(d)   { return d.getHours() * 60 + d.getMinutes(); }
+  function isWeekend(d) { const w = d.getDay(); return w === 0 || w === 6; }
 
-  // Peak windows in minutes since midnight
-  const MORNING_START = 9 * 60;     // 09:00
-  const MORNING_END   = 12 * 60;    // 12:00
-  const AFTER_START   = 14 * 60;    // 14:00
-  const AFTER_END     = 18 * 60;    // 18:00
-
-  function isPeak(beijingDate) {
-    const day = beijingDate.getDay(); // 0=Sun, 6=Sat
-    if (day === 0 || day === 6) return false; // weekend: off-peak
-    const m = minutesSinceMidnight(beijingDate);
-    return (m >= MORNING_START && m < MORNING_END) ||
-           (m >= AFTER_START   && m < AFTER_END);
+  function isPeak(m, weekend) {
+    if (weekend) return false;
+    return (m >= MS_START && m < MS_END) || (m >= AS_START && m < AS_END);
   }
 
   function setTheme(peak) {
-    const cls  = peak ? 'peak' : 'offpeak';
-    const icon = peak ? '⏳' : '🚀';
+    const cls = peak ? 'peak' : 'offpeak';
+    $body.className       = peak ? 'peak' : 'offpeak';
+    $card.className       = 'card ' + cls;
+    $badge.className      = 'status-badge ' + cls;
+    $cdTimer.className    = 'timer ' + cls;
 
-    $body.className = peak ? 'peak' : 'offpeak';
-    $card.className = `card ${cls}`;
-    $badge.className = `status-badge ${cls}`;
-    $dot.className = `status-dot ${cls}`;
+    $lr.className = 'semaforo-light red'   + (peak ? ' on' : '');
+    $lg.className = 'semaforo-light green' + (!peak ? ' on' : '');
 
-    $badgeT.textContent = peak ? `${icon} Peak Hours` : `${icon} Off-Peak`;
-    $msg.innerHTML = peak
-      ? '<strong>⏳ DeepSeek is in peak hours right now.</strong><br>API may have higher latency. Consider lighter usage.'
-      : '<strong>🚀 You&rsquo;re clear — off-peak zone.</strong><br>Go ahead and ship!';
+    $semLbl.textContent = peak ? 'Red Light — NO BUILD' : 'Green Light — TIME TO CODE';
+    $semLbl.className   = 'semaforo-label ' + (peak ? 'active-red' : 'active-green');
+
+    $badgeT.textContent = peak ? '🔴 Peak Hours' : '🟢 Off-Peak';
   }
 
-  function formatCountdown(minutes) {
-    if (minutes <= 0) return '';
-    const h = Math.floor(minutes / 60);
-    const m = minutes % 60;
-    if (h > 0) return `Next peak starts in ${h}h ${m}m`;
-    return `Next peak starts in ${m}m`;
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function fmtTimer(m) {
+    if (m <= 0) return '--';
+    const h = Math.floor(m / 60);
+    const mi = m % 60;
+    if (h > 0) return `${h}h ${pad(mi)}m`;
+    return `${mi}m`;
   }
 
-  function nextPeakStart(nowM) {
-    // Returns minutes until next peak start, or -1 if already in peak
-    if (nowM >= MORNING_START && nowM < MORNING_END) return -1;
-    if (nowM >= AFTER_START && nowM < AFTER_END) return -1;
+  function getCountdown(nowM, peak, weekend) {
+    if (weekend) return { label: '', timer: 'Weekend — off-peak! 🎉', remaining: -1 };
 
-    let target;
-    if (nowM < MORNING_START) {
-      target = MORNING_START;
-    } else if (nowM < AFTER_START) {
-      target = AFTER_START;
+    if (peak) {
+      let end;
+      if (nowM >= MS_START && nowM < MS_END) end = MS_END;
+      else end = AS_END;
+      const r = end - nowM;
+      return {
+        label: 'Off-Peak starts in',
+        timer: fmtTimer(r),
+        remaining: r
+      };
     } else {
-      // After 18:00 — next peak is tomorrow 09:00
-      target = MORNING_START + 24 * 60;
+      let target, tag;
+      if (nowM < MS_START)      { target = MS_START;  tag = '(morning session)'; }
+      else if (nowM < AS_START) { target = AS_START;  tag = '(afternoon session)'; }
+      else                       { target = MS_START + 24 * 60; tag = '(tomorrow)'; }
+      const r = target - nowM;
+      return {
+        label: `Next peak ${tag}`,
+        timer: fmtTimer(r),
+        remaining: r
+      };
     }
-    return target - nowM;
-  }
-
-  function highlightBlocks(nowM) {
-    const inMorning = nowM >= MORNING_START && nowM < MORNING_END;
-    const inAfter   = nowM >= AFTER_START   && nowM < AFTER_END;
-    $bMorn.className = 'hour-block' + (inMorning ? ' active' : '');
-    $bAft.className  = 'hour-block' + (inAfter   ? ' active' : '');
   }
 
   function tick() {
-    const nowUTC8 = offset(new Date());
-    const hh = String(nowUTC8.getHours()).padStart(2, '0');
-    const mm = String(nowUTC8.getMinutes()).padStart(2, '0');
-    const ss = String(nowUTC8.getSeconds()).padStart(2, '0');
+    const bj = beijing(new Date());
 
-    $clock.textContent = `${hh}:${mm}:${ss}`;
+    const weekend = isWeekend(bj);
+    const nowM = mins(bj);
+    const peak = isPeak(nowM, weekend);
 
-    const peak = isPeak(nowUTC8);
     setTheme(peak);
 
-    const nowM = minutesSinceMidnight(nowUTC8);
-    highlightBlocks(nowM);
+    // Highlight active peak block
+    const inMorn = nowM >= MS_START && nowM < MS_END;
+    const inAft  = nowM >= AS_START && nowM < AS_END;
+    $bMorn.className = 'hour-block' + (inMorn && !weekend ? ' active' : '');
+    $bAft.className  = 'hour-block' + (inAft  && !weekend ? ' active' : '');
 
-    const mins = nextPeakStart(peak ? -1 : nowM);
-
-    // Weekend message
-    if (nowUTC8.getDay() === 0 || nowUTC8.getDay() === 6) {
-      $cd.textContent = 'Weekend — all off-peak! 🎉';
-    } else if (peak) {
-      // Find end of current peak window
-      let end;
-      if (nowM >= MORNING_START && nowM < MORNING_END) end = MORNING_END;
-      else end = AFTER_END;
-      const remaining = end - nowM;
-      $cd.textContent = remaining > 0
-        ? `Peak ends in ${Math.floor(remaining / 60)}h ${remaining % 60}m`
-        : '';
-    } else {
-      $cd.textContent = formatCountdown(mins);
-    }
+    const cd = getCountdown(nowM, peak && !weekend, weekend);
+    $cdLbl.textContent   = cd.label;
+    $cdTimer.textContent = cd.timer;
   }
 
   tick();
