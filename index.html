@@ -281,12 +281,13 @@
   const $cdTimer = document.getElementById('cd-timer');
 
   function beijing(date) {
-    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-                             date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()) + UTC8 * 60000);
+    const utcMs = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+                           date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+    return new Date(utcMs + UTC8 * 60000);
   }
 
-  function mins(d)   { return d.getHours() * 60 + d.getMinutes(); }
-  function isWeekend(d) { const w = d.getDay(); return w === 0 || w === 6; }
+  function mins(d)   { return d.getUTCHours() * 60 + d.getUTCMinutes(); }
+  function isWeekend(d) { const w = d.getUTCDay(); return w === 0 || w === 6; }
 
   function isPeak(m, weekend) {
     if (weekend) return false;
@@ -352,10 +353,10 @@
     const weekend = isWeekend(bj);
     const nowM = mins(bj);
     const peak = isPeak(nowM, weekend);
+    document.title = peak ? '🔴 DeepSeek Peak' : '🟢 DeepSeek Off-Peak';
 
     setTheme(peak);
 
-    // Highlight active peak block
     const inMorn = nowM >= MS_START && nowM < MS_END;
     const inAft  = nowM >= AS_START && nowM < AS_END;
     $bMorn.className = 'hour-block' + (inMorn && !weekend ? ' active' : '');
